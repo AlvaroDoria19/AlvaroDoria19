@@ -11,7 +11,6 @@
 -   🧿| Configuración de Plugins en MC (1.8.x - 1.20.x)
 -   🧿| Desarrollo de Servidores Spigot y Networks BungeeCord (1.8.x - 1.20.x)
 -   🧿| Configuración de Networks en servidores forks de Spigot y Bungeecord(PaperSpigor,Waterfall, etc) 
-- 📫 How to reach me ...
 
 <!---
 AlvaroDoria19/AlvaroDoria19 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
