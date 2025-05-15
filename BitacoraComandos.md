@@ -22,7 +22,7 @@ Es importante tener en cuenta que muchos de estos comandos deben ejecutarse en m
 | we                           | Elimina la configuración guardada en la memoria y la que se está ejecutando actualmente                  | Routers/Switches  |                    -                   | Esto elimina todo los archivos de configuración.                                                        |
 | reload                       | Reinicia el equipo                                                                                       | Routers/Switches  |                    -                   | Asegurate de guardar la configuración actual antes de usar este comando, de no hacerlo se perderá todo. |
 
-## Comandos de configuración de acceso remoto y administración
+## Comandos de configuración de acceso remoto y administración (TELNET)
 
 Esta tabla presenta una serie de comandos esenciales para configurar el acceso remoto y la gestión de switches y routers Cisco. A través de estos comandos, se puede asignar una dirección IP a la interfaz VLAN, establecer una puerta de enlace predeterminada y preparar el dispositivo para ser administrado remotamente mediante Telnet.
 
@@ -42,3 +42,5 @@ Estos comandos son especialmente importantes en entornos donde se necesita gesti
 |                       login (user)                       |   Configura la linea VTY para requerir autenticación del usuario elegido antes de permitir el acceso remoto  |  Switches/Routers |                 login admin                 |                                            -                                            |
 |                  transport input telnet                  | Permite el acceso remoto al dispositivo mediante el protocolo Telnet a través de las líneas VTY configuradas |  Switches/Routers |                      -                      |                                            -                                            |
 
+# Comandos dedicados a IPv6
+Testing
