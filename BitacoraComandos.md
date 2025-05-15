@@ -55,7 +55,8 @@ La siguiente tabla reúne comandos esenciales para comenzar con la configuració
 |        mac-address       |                  Asigna manualmente una MAC al puerto                  |  Switches/Routers |        mac-address 0201.aa00.0001        |            No siempre es necesario, es util en laboratorios           |
 | ipv6 address (ip) eui-64 | Asigna una IP usando EUI-64 que usa la MAC para generar parte del Host |      Routers      | ipv6 address 2001:DB8:1111:1::/64 eui-64 | Las IP usadas para este protocolo de asignación SI O SI deben ser /64 |
 
-## CREACION DE UN DHCP SERVER
+## Creación de un DHCP Server
+
 sta serie de comandos se utiliza para configurar y gestionar el servicio DHCP en routers y, en algunos casos, switches que soportan esta funcionalidad. A través de ellos, es posible definir grupos o pools de direcciones IP que se asignarán dinámicamente a los hosts de una red.
 
 |            **_Comando_**           |                                                                 **_Uso_**                                                                 | **_Aplicable a_** |            **_Ejemplo_**           |                                                     **_Notas_**                                                     |
