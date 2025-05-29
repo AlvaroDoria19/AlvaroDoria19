@@ -54,6 +54,17 @@ Estos comandos permiten activar y configurar el protocolo de enrutamiento dinám
 | passive-interface (interfaz) | Evita que la interfaz envíe mensajes RIP, pero sigue escuchando actualizaciones entrantes. |      Routers      | passive-interface GigabitEthernet0/1 | ara interfaces conectadas a usuarios finales o segmentos donde no se desea enviar anuncios RIP. |
 | no auto-summary              | Desactiva la sumarización automática de rutas en los límites de clase                      |      Routers      |                   -                  | Es necesario cuando se usa VLSM o subredes discontinuas.                                        |
 
+## Comandos Switching y Multicapa
+En esta sección se listan los comandos usados especificamente en Switches y Switches Multicapa
+
+|             **_Comando_**             |                         **_Uso_**                         | **_Aplicable a_** |             **_Ejemplo_**             |                                      **_Notas_**                                     |
+|:-------------------------------------:|:---------------------------------------------------------:|:-----------------:|:-------------------------------------:|:------------------------------------------------------------------------------------:|
+| switchport mode [trunk/access]        | Cambia el rol de la interfaz a enlace troncal o de acceso |      Switches     |                   -                   |                                          -                                           |
+| spanning-tree portfast                | Deshabilita el protocolo STP en el puerto                 |      Switches     |                   -                   | Este protocolo controla la rebundancia, y es deseable si es un enlace entre switches |
+| switchport trunk allowed vlan [x1,x2] | Le da permisos para usar enlaces troncales a las VLAN     |      Switches     | switchport trunk allowed vlan [10,20] | Esto es solo por seguridad                                                           |
+| no switchport                         | Deshabilita el switching en el puerto                     |    Switches L3    |                   -                   | Esto se hara para dar una ip al puerto en un L3                                      |
+| ip routing                            | Le dice al switch que enrute dominios de broadcast        |    Switches L3    |                   -                   | Esto es necesario para el correcto funcionamiento                                    |
+
 # Comandos dedicados a IPv6
 Estos comandos forman la base para implementar redes IPv6 funcionales, y son especialmente importantes en entornos modernos que buscan adoptar gradualmente el nuevo protocolo de Internet.
 
@@ -95,16 +106,7 @@ RIPng es la versión de RIP diseñada para redes IPv6. A diferencia del protocol
 | ipv6 router rip (NOMBRE_DEL_PROCESO) |            Define el proceso RIPng que será usado por las interfaces.             |      Routers      |       ipv6 router rip RIP-LAB        |                                   -                                    |
 |     passive-interface (INTERFAZ)     |    Hace que la interfaz no envíe actualizaciones RIPng, pero sí puede recibir.    |      Routers      | passive-interface GigabitEthernet0/2 | Primero se debe seleccionar la interfaz con el comando ipv6 router rip |
 
-## Comandos Switching y Multicapa
-En esta sección se listan los comandos usados especificamente en Switches y Switches Multicapa
 
-|             **_Comando_**             |                         **_Uso_**                         | **_Aplicable a_** |             **_Ejemplo_**             |                                      **_Notas_**                                     |
-|:-------------------------------------:|:---------------------------------------------------------:|:-----------------:|:-------------------------------------:|:------------------------------------------------------------------------------------:|
-| switchport mode [trunk/access]        | Cambia el rol de la interfaz a enlace troncal o de acceso |      Switches     |                   -                   |                                          -                                           |
-| spanning-tree portfast                | Deshabilita el protocolo STP en el puerto                 |      Switches     |                   -                   | Este protocolo controla la rebundancia, y es deseable si es un enlace entre switches |
-| switchport trunk allowed vlan [x1,x2] | Le da permisos para usar enlaces troncales a las VLAN     |      Switches     | switchport trunk allowed vlan [10,20] | Esto es solo por seguridad                                                           |
-| no switchport                         | Deshabilita el switching en el puerto                     |    Switches L3    |                   -                   | Esto se hara para dar una ip al puerto en un L3                                      |
-| ip routing                            | Le dice al switch que enrute dominios de broadcast        |    Switches L3    |                   -                   | Esto es necesario para el correcto funcionamiento                                    |
 # Comandos de Verificación
 En esta sección se listarán todos los comandos que se necesitan para la verificación o manejo en diferentes equipos Cisco
 
