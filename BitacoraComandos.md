@@ -95,7 +95,7 @@ RIPng es la versión de RIP diseñada para redes IPv6. A diferencia del protocol
 | ipv6 router rip (NOMBRE_DEL_PROCESO) |            Define el proceso RIPng que será usado por las interfaces.             |      Routers      |       ipv6 router rip RIP-LAB        |                                   -                                    |
 |     passive-interface (INTERFAZ)     |    Hace que la interfaz no envíe actualizaciones RIPng, pero sí puede recibir.    |      Routers      | passive-interface GigabitEthernet0/2 | Primero se debe seleccionar la interfaz con el comando ipv6 router rip |
 
-# Comandos Switching y Multicapa
+## Comandos Switching y Multicapa
 En esta sección se listan los comandos usados especificamente en Switches y Switches Multicapa
 
 |             **_Comando_**             |                         **_Uso_**                         | **_Aplicable a_** |             **_Ejemplo_**             |                                      **_Notas_**                                     |
