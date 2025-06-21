@@ -106,6 +106,61 @@ RIPng es la versión de RIP diseñada para redes IPv6. A diferencia del protocol
 | ipv6 router rip (NOMBRE_DEL_PROCESO) |            Define el proceso RIPng que será usado por las interfaces.             |      Routers      |       ipv6 router rip RIP-LAB        |                                   -                                    |
 |     passive-interface (INTERFAZ)     |    Hace que la interfaz no envíe actualizaciones RIPng, pero sí puede recibir.    |      Routers      | passive-interface GigabitEthernet0/2 | Primero se debe seleccionar la interfaz con el comando ipv6 router rip |
 
+## Comandos de VLAN y VTP (VLAN Trunking Protocol)
+
+Estos comandos son esenciales para crear y administrar VLANs en una red de switches Cisco. Se incluye la configuración del protocolo VTP, que simplifica la gestión de VLANs al sincronizarlas automáticamente desde un switch servidor a los switches cliente dentro del mismo dominio.
+
+|         **_Comando_** |                                          **_Uso_** | **_Aplicable a_** |             **_Ejemplo_** |                                           **_Notas_** |
+|:----------------------------:|:------------------------------------------------------------------------------------------:|:-----------------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+| vlan (nro\_vlan)             | Crea una VLAN con el número de ID especificado.                                            |      Switches     | vlan 100                             | Si la VLAN ya existe, este comando ingresa a su modo de configuración.                          |
+| name (nombre\_vlan)          | Asigna un nombre descriptivo a la VLAN para facilitar su identificación.                   |      Switches     | name Administrativa                  | Se debe estar en el modo de configuración de la VLAN (`config-vlan`).                             |
+| vtp mode [server/client]     | Define el rol del switch dentro del dominio VTP (servidor o cliente).                      |      Switches     | vtp mode server                      | El modo `transparent` permite gestionar VLANs localmente sin participar en la sincronización. |
+| vtp domain (nombre\_dominio) | Asigna el switch a un dominio VTP específico.                                              |      Switches     | vtp domain sis252.usfx.bo            | Todos los switches que deben sincronizarse tienen que estar en el mismo dominio.               |
+| vtp password (contraseña)    | Establece una contraseña para el dominio VTP, añadiendo una capa de seguridad.             |      Switches     | vtp password 123456                  | La contraseña debe ser idéntica en todos los switches del dominio.                              |
+| show vlan brief              | Muestra un resumen de todas las VLANs configuradas y los puertos asignados a cada una.     |      Switches     |                   -                  | Comando de verificación fundamental para comprobar la asignación de puertos.                  |
+
+## Comandos de Enrutamiento "Router on a Stick" (Subinterfaces)
+
+Este método permite enrutar tráfico entre múltiples VLANs utilizando una única interfaz física de un router, la cual se divide en subinterfaces lógicas. Es una solución eficiente cuando no se dispone de un switch de Capa 3.
+
+|         **_Comando_** |                                          **_Uso_** | **_Aplicable a_** |             **_Ejemplo_** |                                           **_Notas_** |
+|:----------------------------:|:------------------------------------------------------------------------------------------:|:-----------------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+| interface (interfaz.sub-id)  | Crea una subinterfaz lógica asociada a una interfaz física.                                |      Routers      | interface FastEthernet0/0.100        | El número de la subinterfaz no tiene que coincidir con el ID de la VLAN, pero es una buena práctica hacerlo. |
+| encapsulation dot1q (id\_vlan) | Asocia la subinterfaz con una VLAN específica y habilita el etiquetado de tramas 802.1Q. |      Routers      | encapsulation dot1q 100              | **Comando obligatorio**. Sin él, la subinterfaz no puede procesar tráfico de VLAN.              |
+| ip address (IP) (Mascara)    | Asigna una dirección IP a la subinterfaz, que actuará como gateway para esa VLAN.          |      Routers      | ip address 192.168.100.1 255.255.255.0 | Cada subinterfaz debe tener una IP en una subred diferente.                                     |
+| no shutdown (en interfaz física) | Activa la interfaz física principal. Si está apagada, todas sus subinterfaces también lo estarán. | Routers | -                                  | Este comando se ejecuta en la interfaz física (ej. `interface FastEthernet0/0`), no en la subinterfaz. |
+
+## Comandos de Enrutamiento con Switch de Capa 3 (SVI)
+
+Un Switch de Capa 3 (L3) puede enrutar tráfico entre VLANs de forma nativa y a alta velocidad utilizando Interfaces Virtuales de Switch (SVI). Esta es la solución más escalable para el enrutamiento Inter-VLAN en redes de campus.
+
+|             **_Comando_** |                                          **_Uso_** | **_Aplicable a_** |             **_Ejemplo_** |                                           **_Notas_** |
+|:-------------------------------------:|:------------------------------------------------------------------------------------------:|:-----------------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+| ip routing                            | Habilita globalmente la funcionalidad de enrutamiento en el switch.                      |    Switches L3    |                   -                  | **Comando maestro**. Sin él, el switch actúa solo en Capa 2 y no enrutará paquetes.             |
+| interface vlan (nro\_vlan)            | Crea o selecciona una Interfaz Virtual de Switch (SVI) para una VLAN específica.           |    Switches L3    | interface vlan 100                   | Esta interfaz actúa como el gateway para todos los dispositivos en esa VLAN.                    |
+| ip address (IP) (Mascara)             | Asigna una dirección IP a la SVI, definiendo la puerta de enlace de la VLAN.               |    Switches L3    | ip address 192.168.100.1 255.255.255.0 | La SVI debe estar en estado "up/up" para enrutar, lo cual requiere que la VLAN exista y tenga un puerto activo. |
+| ip helper-address (ip\_servidor\_dhcp) | Reenvía las peticiones DHCP de una VLAN a un servidor DHCP ubicado en otra subred.       |    Switches L3    | ip helper-address 192.168.200.10     | Se configura dentro de la SVI de la VLAN cliente. Indispensable para DHCP centralizado.         |
+
+## Comandos de Enrutamiento Estático y por Defecto
+
+El enrutamiento estático se configura manualmente por el administrador para definir rutas específicas. Es útil para redes pequeñas, para definir una ruta a una red de extremo (stub network) o para establecer una ruta de último recurso (por defecto).
+
+|         **_Comando_** |                                          **_Uso_** | **_Aplicable a_** |             **_Ejemplo_** |                                           **_Notas_** |
+|:----------------------------:|:------------------------------------------------------------------------------------------:|:-----------------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+| ip route (red) (mascara) (salto) | Crea una ruta estática hacia una red de destino a través de una IP de siguiente salto.     |      Routers      | ip route 192.168.2.0 255.255.255.0 10.0.0.2 | Es la forma más común de configurar una ruta estática.                                          |
+| ip route (red) (mascara) (interfaz) | Crea una ruta estática hacia una red de destino a través de una interfaz de salida local.    |      Routers      | ip route 192.168.2.0 255.255.255.0 Se0/0/0 | Recomendado solo para interfaces punto a punto.                                                 |
+| ip route 0.0.0.0 0.0.0.0 (salto) | Crea una ruta por defecto o de último recurso.                                           |      Routers      | ip route 0.0.0.0 0.0.0.0 10.0.0.2    | Si un paquete no coincide con ninguna otra ruta en la tabla, se enviará a esta dirección.       |
+| show ip route static         | Muestra únicamente las rutas estáticas configuradas en la tabla de enrutamiento.          |      Routers      |                   -                  | Útil para verificar rápidamente las rutas que se han introducido manualmente.                 |
+
+## Comandos de Redistribución de Rutas
+
+La redistribución es el proceso de tomar rutas aprendidas a través de un protocolo de enrutamiento (como estáticas) y anunciarlas en otro protocolo de enrutamiento (como RIP). Es fundamental para la interoperabilidad en redes con múltiples protocolos.
+
+|         **_Comando_** |                                          **_Uso_** | **_Aplicable a_** |             **_Ejemplo_** |                                           **_Notas_** |
+|:----------------------------:|:------------------------------------------------------------------------------------------:|:-----------------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+| router rip                   | Ingresa al modo de configuración del proceso RIP.                                          |      Routers      |                   -                  | La redistribución se configura dentro del proceso de enrutamiento que recibirá las rutas.       |
+| redistribute static          | Ordena al proceso RIP que anuncie todas las rutas estáticas configuradas en el router.     |      Routers      |                   -                  | Este es el comando que permitió que la Zona Intranet fuera visible para el resto de la red.     |
+| redistribute static metric (valor) | Realiza la redistribución asignando un costo o métrica inicial a las rutas importadas.   | Routers | redistribute static metric 2 | Es una buena práctica definir una métrica para tener control sobre la preferencia de la ruta. |
 
 # Comandos de Verificación
 En esta sección se listarán todos los comandos que se necesitan para la verificación o manejo en diferentes equipos Cisco
