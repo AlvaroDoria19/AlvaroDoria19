@@ -162,6 +162,34 @@ La redistribución es el proceso de tomar rutas aprendidas a través de un proto
 | redistribute static          | Ordena al proceso RIP que anuncie todas las rutas estáticas configuradas en el router.     |      Routers      |                   -                  | Este es el comando que permitió que la Zona Intranet fuera visible para el resto de la red.     |
 | redistribute static metric (valor) | Realiza la redistribución asignando un costo o métrica inicial a las rutas importadas.   | Routers | redistribute static metric 2 | Es una buena práctica definir una métrica para tener control sobre la preferencia de la ruta. |
 
+## Comandos para protocolos de enrutamiento
+En esta sección se listan comandos para diferentes protocolos de enrutamiento
+
+# Configuración de NAT
+
+|                 **_Comando_**                 |                               **_Uso_**                                | **_Aplicable a_** |                         **_Ejemplo_**                         |                                          **_Notas_**                                          |
+|:---------------------------------------------:|:----------------------------------------------------------------------:|:-----------------:|:---------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------:|
+| `ip nat inside`                               | Marca una interfaz como parte de la red interna (local).               | Routers           |                               -                               | Se aplica en la interfaz que conecta a la LAN.                                                      |
+| `ip nat outside`                              | Marca una interfaz como parte de la red externa (pública/Internet).    | Routers           |                               -                               | Se aplica en la interfaz que conecta al proveedor de servicios (ISP).                               |
+| `access-list <núm> permit <red> <wildcard>`   | Define qué direcciones IP internas tienen permiso para ser traducidas. | Routers           |        `access-list 1 permit 192.168.1.0 0.0.0.255`         | Se usa para identificar el tráfico de origen para NAT dinámico.                                     |
+| `ip nat inside source list <acl> int <if> overload` | Configura NAT dinámico con sobrecarga (PAT).                           | Routers           | `ip nat inside source list 1 interface Se0/0/0 overload` | Es el tipo de NAT más común. Traduce múltiples IPs privadas a una única IP pública.                 |
+| `ip nat inside source static <ip_priv> <ip_pub>` | Crea una traducción estática 1 a 1 entre una IP privada y una pública. | Routers           |    `ip nat inside source static 192.168.1.10 200.1.1.5`     | Útil para que un servidor interno (web, correo) sea accesible desde Internet.                       |
+| `show ip nat translations`                    | Muestra la tabla de traducciones NAT activas.                          | Routers           |                               -                               | Permite verificar en tiempo real las traducciones que el router está realizando.                    |
+| `clear ip nat translation *`                  | Borra todas las entradas de la tabla de traducciones NAT.              | Routers           |                               -                               | Útil para solucionar problemas o reiniciar las conexiones NAT.                                      |
+
+---
+# Configuración de EIGRP
+
+|             **_Comando_**             |                                           **_Uso_**                                            | **_Aplicable a_** |                     **_Ejemplo_**                      |                                          **_Notas_**                                          |
+|:-------------------------------------:|:----------------------------------------------------------------------------------------------:|:-----------------:|:--------------------------------------------------------:|:---------------------------------------------------------------------------------------------------:|
+| `router eigrp <as_number>`            | Habilita el proceso de enrutamiento EIGRP.                                                     | Routers           |                    `router eigrp 100`                    | El número de Sistema Autónomo (AS) debe ser el mismo en todos los routers de la red EIGRP.          |
+| `network <red> [wildcard]`            | Anuncia una red y habilita EIGRP en las interfaces que pertenecen a ella.                       | Routers           |                `network 10.0.0.0`                | Si no se usa wildcard, EIGRP asume la máscara con clase. Es mejor práctica usar wildcard.          |
+| `no auto-summary`                     | Deshabilita la sumarización automática de redes a sus límites con clase.                        | Routers           |                            -                           | Recomendado en la mayoría de las redes para evitar problemas con redes discontinuas.                |
+| `passive-interface <interfaz>`        | Evita que se envíen actualizaciones EIGRP por una interfaz, pero sigue anunciando su red.       | Routers           |             `passive-interface g0/1`             | Se usa en interfaces conectadas a redes LAN para mejorar la seguridad y reducir tráfico innecesario. |
+| `eigrp router-id <ip>`                | Asigna manualmente un Router ID a un proceso EIGRP.                                            | Routers           |                `eigrp router-id 1.1.1.1`                 | Si no se configura, se elige la IP más alta de una interfaz loopback, o la IP más alta de una interfaz física. |
+| `show ip eigrp neighbors`             | Muestra la tabla de vecinos EIGRP y verifica la adyacencia.                                    | Routers           |                            -                           | Comando de verificación clave para confirmar que los routers se están comunicando.                  |
+| `show ip route eigrp`                 | Muestra únicamente las rutas aprendidas a través de EIGRP en la tabla de enrutamiento.          | Routers           |                            -                           | Permite filtrar la tabla de enrutamiento para ver solo lo aprendido por EIGRP.                     |
+
 # Comandos de Verificación
 En esta sección se listarán todos los comandos que se necesitan para la verificación o manejo en diferentes equipos Cisco
 
