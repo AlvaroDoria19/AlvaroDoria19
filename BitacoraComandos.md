@@ -162,8 +162,6 @@ La redistribución es el proceso de tomar rutas aprendidas a través de un proto
 | redistribute static          | Ordena al proceso RIP que anuncie todas las rutas estáticas configuradas en el router.     |      Routers      |                   -                  | Este es el comando que permitió que la Zona Intranet fuera visible para el resto de la red.     |
 | redistribute static metric (valor) | Realiza la redistribución asignando un costo o métrica inicial a las rutas importadas.   | Routers | redistribute static metric 2 | Es una buena práctica definir una métrica para tener control sobre la preferencia de la ruta. |
 
-## Comandos para protocolos de enrutamiento
-En esta sección se listan comandos para diferentes protocolos de enrutamiento
 
 # Configuración de NAT
 
