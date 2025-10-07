@@ -190,6 +190,38 @@ En esta sección se listan comandos para diferentes protocolos de enrutamiento
 | `show ip eigrp neighbors`             | Muestra la tabla de vecinos EIGRP y verifica la adyacencia.                                    | Routers           |                            -                           | Comando de verificación clave para confirmar que los routers se están comunicando.                  |
 | `show ip route eigrp`                 | Muestra únicamente las rutas aprendidas a través de EIGRP en la tabla de enrutamiento.          | Routers           |                            -                           | Permite filtrar la tabla de enrutamiento para ver solo lo aprendido por EIGRP.                     |
 
+## Configuración de OSPF (IPv4)
+
+Estos comandos permiten activar y configurar el protocolo de enrutamiento dinámico **OSPF** (Open Shortest Path First) en routers Cisco. OSPF es un protocolo de estado de enlace que utiliza el algoritmo de Dijkstra para calcular la ruta más corta. Es altamente escalable y ampliamente utilizado en redes empresariales.
+
+### Configuración Básica y Anuncio de Redes
+
+| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
+| :--- | :--- | :--- | :--- | :--- |
+| `router ospf <process-id>` | Habilita el proceso de enrutamiento OSPF en el router. | Routers | `router ospf 10` | El `process-id` (1-65535) es localmente significativo; no necesita coincidir entre routers. |
+| `router-id <A.B.C.D>` | Asigna manualmente un ID de 32 bits en formato de dirección IP para identificar al router. | Routers | `router-id 1.1.1.1` | Si no se configura, OSPF elige la IP más alta de una interfaz loopback o, en su defecto, la IP más alta de una interfaz física activa. Es una buena práctica configurarlo manualmente. |
+| `network <red> <wildcard> area <area-id>` | Habilita OSPF en las interfaces que coinciden con la red y las asocia a un área. | Routers | `network 192.168.1.0 0.0.0.255 area 0` | El `area-id` define el área a la que pertenecen las interfaces. El `area 0` es el área de backbone. |
+| `passive-interface <interfaz>` | Evita que una interfaz envíe paquetes de OSPF (hellos), pero permite que la red de esa interfaz sea anunciada. | Routers | `passive-interface GigabitEthernet0/1` | Se usa comúnmente en interfaces que conectan a redes LAN para mejorar la seguridad y reducir el tráfico innecesario. |
+
+### Verificación y Troubleshooting
+
+| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
+| :--- | :--- | :--- | :--- | :--- |
+| `show ip ospf neighbor` | Muestra los vecinos OSPF, su estado de adyacencia (ej. FULL, 2-WAY) y la interfaz por la que se han descubierto. | Routers | - | Es el comando principal para verificar que se han establecido adyacencias correctas. |
+| `show ip protocols` | Proporciona un resumen de los protocolos de enrutamiento, incluyendo el ID del proceso OSPF, el router-id y las redes anunciadas. | Routers | - | Útil para una verificación rápida de la configuración general de OSPF. |
+| `show ip route ospf` | Muestra únicamente las rutas aprendidas a través de OSPF en la tabla de enrutamiento. | Routers | - | Permite filtrar la tabla de enrutamiento para ver solo rutas OSPF, que aparecen con una "O". |
+| `show ip ospf interface [brief]` | Muestra información detallada de las interfaces que participan en OSPF, como el área, costo, prioridad y estado (DR, BDR). | Routers | `show ip ospf interface brief` | La opción `brief` ofrece un resumen tabular muy útil. |
+| `show ip ospf database` | Despliega la base de datos de estado de enlace (LSDB), mostrando todos los Link-State Advertisements (LSAs) que conoce el router. | Routers | - | Permite analizar la topología de la red desde la perspectiva de OSPF. |
+| `clear ip ospf process` | Reinicia el proceso OSPF, forzando la reconstrucción de todas las adyacencias y la base de datos. | Routers | - | Usar con precaución en redes en producción, ya que causa una interrupción temporal del enrutamiento. |
+
+### Configuración Avanzada
+
+| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
+| :--- | :--- | :--- | :--- | :--- |
+| `ip ospf priority <0-255>` | (En modo de interfaz) Establece la prioridad para la elección del Router Designado (DR) y Router Designado de Respaldo (BDR). | Routers | `ip ospf priority 255` | Un valor más alto aumenta la probabilidad de ser elegido DR. Una prioridad de 0 impide que el router participe en la elección. |
+| `ip ospf cost <1-65535>` | (En modo de interfaz) Asigna manualmente el costo a una interfaz, anulando el costo calculado automáticamente basado en el ancho de banda. | Routers | `ip ospf cost 10` | Un costo menor es preferible. Útil para influir en la selección de rutas. |
+| `default-information originate [always]` | Inyecta una ruta estática por defecto (`0.0.0.0/0`) en el área OSPF, convirtiendo al router en un ASBR. | Routers | `default-information originate` | La opción `always` la anuncia incluso si el router no tiene una ruta por defecto en su tabla. |
+| `redistribute <protocolo> subnets` | Redistribuye rutas desde otro origen (ej. `static`, `connected`, `eigrp`) hacia OSPF. | Routers | `redistribute static subnets` | La palabra clave `subnets` es fundamental para asegurar que las subredes se redistribuyan correctamente y no se sumarizen con clase. |
 # Comandos de Verificación
 En esta sección se listarán todos los comandos que se necesitan para la verificación o manejo en diferentes equipos Cisco
 
