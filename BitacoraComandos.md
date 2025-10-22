@@ -220,6 +220,48 @@ Estos comandos permiten activar y configurar el protocolo de enrutamiento dinám
 | `ip ospf cost <1-65535>` | (En modo de interfaz) Asigna manualmente el costo a una interfaz, anulando el costo calculado automáticamente basado en el ancho de banda. | Routers | `ip ospf cost 10` | Un costo menor es preferible. Útil para influir en la selección de rutas. |
 | `default-information originate [always]` | Inyecta una ruta estática por defecto (`0.0.0.0/0`) en el área OSPF, convirtiendo al router en un ASBR. | Routers | `default-information originate` | La opción `always` la anuncia incluso si el router no tiene una ruta por defecto en su tabla. |
 | `redistribute <protocolo> subnets` | Redistribuye rutas desde otro origen (ej. `static`, `connected`, `eigrp`) hacia OSPF. | Routers | `redistribute static subnets` | La palabra clave `subnets` es fundamental para asegurar que las subredes se redistribuyan correctamente y no se sumarizen con clase. |
+
+## Configuración de IS-IS (Intermediate System to Intermediate System)
+
+IS-IS es un protocolo de enrutamiento de estado de enlace (link-state) diseñado originalmente para CLNS, pero extendido para enrutar IP (Integrated IS-IS). Es conocido por su escalabilidad, rápida convergencia y eficiencia, siendo una opción popular en grandes redes de proveedores de servicios (ISP).
+
+### Configuración Básica y Activación
+
+| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
+| :--- | :--- | :--- | :--- | :--- |
+| `router isis <process-tag>` | Habilita el proceso de enrutamiento IS-IS en el router. | Routers | `router isis MY_ISP` | El `<process-tag>` es un nombre localmente significativo para identificar el proceso. |
+| `net <NET_address>` | Asigna el Network Entity Title (NET), que identifica el área y el sistema. Es crucial para el funcionamiento de IS-IS. | Routers | `net 49.0001.1111.1111.1111.00` | El formato es `AreaID.SystemID.NSEL`. El `SystemID` debe ser único por router y el `NSEL` (selector) casi siempre es `00`. |
+| `is-type <level-1 | level-2-only | level-1-2>` | Define el rol del router dentro de la topología IS-IS. | Routers | `is-type level-2-only` | `level-1`: intra-área. `level-2`: inter-área (backbone). `level-1-2`: ambos roles. |
+| `ip router isis <process-tag>` | (En modo de interfaz) Habilita IS-IS para IPv4 en la interfaz especificada. | Routers | `ip router isis MY_ISP` | Debe aplicarse en cada interfaz que participará en el enrutamiento IS-IS. |
+| `ipv6 router isis <process-tag>` | (En modo de interfaz) Habilita IS-IS para IPv6 en la interfaz. | Routers | `ipv6 router isis MY_ISP` | IS-IS soporta de forma nativa IPv4 e IPv6 simultáneamente (multi-AF). |
+| `clns routing` | Habilita el enrutamiento CLNS. Aunque se enrute solo IP, este comando a veces es necesario para que el proceso IS-IS se levante correctamente. | Routers | - | Es un prerrequisito en algunas versiones de IOS. |
+
+### Configuración Avanzada y Ajustes
+
+| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
+| :--- | :--- | :--- | :--- | :--- |
+| `isis circuit-type <level-1 | level-2-only | level-1-2>` | (En modo de interfaz) Forza a una interfaz a operar solo en un nivel específico, ignorando el `is-type` global. | Routers | `isis circuit-type level-2` | Útil para controlar la topología en interfaces específicas de un router L1/L2. |
+| `isis metric <valor> [level-1 \| level-2]` | (En modo de interfaz) Asigna manualmente una métrica (costo) a la interfaz. | Routers | `isis metric 50 level-2` | Por defecto, todas las interfaces tienen una métrica de 10. Una métrica menor es preferible. |
+| `summary-address <prefijo> <mask> [level-1 \| level-2]` | (En modo de interfaz de un router L1/L2) Crea una ruta de resumen que se anuncia a otro nivel. | Routers | `summary-address 10.0.0.0 255.0.0.0 level-2` | Ayuda a reducir el tamaño de las tablas de enrutamiento en diseños multi-área. |
+| `isis password <clave> [level-1 \| level-2]` | (En modo de interfaz) Habilita autenticación de texto simple (clear text). | Routers | `isis password cisco` | La clave debe coincidir entre vecinos. No es segura. |
+| `isis authentication mode md5 [level-1 \| level-2]` | (En modo de interfaz) Indica que se usará autenticación MD5, que es más segura. | Routers | `isis authentication mode md5` | Debe ir acompañada del comando para definir la clave. |
+| `isis authentication key <clave> [level-1 \| level-2]` | (En modo de interfaz) Define la clave (secreta) para la autenticación MD5. | Routers | `isis authentication key MySecretKey` | La clave no se muestra en la configuración. |
+
+### Verificación y Troubleshooting
+
+| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
+| :--- | :--- | :--- | :--- | :--- |
+| `show isis neighbors [detail]` | Muestra los vecinos IS-IS, su nivel (L1/L2), estado (Up/Down) y el tiempo de espera. | Routers | `show isis neighbors detail` | Es el comando fundamental para verificar adyacencias. `detail` muestra más información. |
+| `show clns neighbors [detail]` | Muestra la misma información de vecinos, pero desde la perspectiva de CLNS. | Routers | - | A veces útil si `show isis neighbors` no muestra información. |
+| `show ip route isis` | Muestra las rutas aprendidas específicamente a través de IS-IS. | Routers | - | Las rutas L1 aparecen como `i L1`, las L2 como `i L2`. |
+| `show isis database [detail]` | Muestra la base de datos de estado de enlace (LSDB), que contiene todos los LSPs. | Routers | `show isis database R1.00-00` | Similar a `show ip ospf database`. Permite ver la topología de la red. |
+| `show isis protocol` | Muestra información global sobre el proceso IS-IS, incluyendo el System-ID, áreas y niveles activos. | Routers | - | Un buen punto de partida para una revisión general. |
+| `show clns interface [interfaz]` | Muestra el estado de IS-IS en las interfaces desde la perspectiva de CLNS. | Routers | `show clns int g0/0` | Confirma si el protocolo está corriendo en la interfaz y muestra el DIS si aplica. |
+| `clear isis *` | Reinicia adyacencias o el proceso completo. | Routers | `clear isis adjacency` | Útil para forzar una reconvergencia, pero debe usarse con cuidado. |
+| `debug isis adj-packets` | Muestra los paquetes de Hello (IIH) que se envían y reciben, para depurar la formación de adyacencias. | Routers | - | Consume CPU, usar solo para diagnóstico. Desactivar con `undebug all`. |
+| `debug isis spf-events` | Muestra en tiempo real la ejecución del algoritmo SPF. | Routers | - | Ayuda a entender por qué se recalculan las rutas. Desactivar con `undebug all`. |
+
+
 # Comandos de Verificación
 En esta sección se listarán todos los comandos que se necesitan para la verificación o manejo en diferentes equipos Cisco
 
