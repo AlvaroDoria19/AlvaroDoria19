@@ -1,3 +1,30 @@
+# Bitácora de Comandos Cisco
+
+## Índice
+
+- [Comandos básicos](#comandos-básicos)
+- [Comandos de configuración de acceso remoto y administración (TELNET)](#comandos-de-configuración-de-acceso-remoto-y-administración-telnet)
+- [Comandos de configuración de RIP versión 2 (IPv4)](#comandos-de-configuración-de-rip-versión-2-ipv4)
+- [Comandos Switching y Multicapa](#comandos-switching-y-multicapa)
+- [Comandos dedicados a IPv6](#comandos-dedicados-a-ipv6)
+- [COMANDOS BASICOS DE IMPLEMENTACIÓN IPV6](#comandos-basicos-de-implementación-ipv6)
+- [Creación de un DHCP Server](#creación-de-un-dhcp-server)
+- [Configuración de RIPng (IPv6)](#configuración-de-ripng-ipv6)
+- [Comandos de VLAN y VTP (VLAN Trunking Protocol)](#comandos-de-vlan-y-vtp-vlan-trunking-protocol)
+- [Comandos de Enrutamiento "Router on a Stick" (Subinterfaces)](#comandos-de-enrutamiento-router-on-a-stick-subinterfaces)
+- [Comandos de Enrutamiento con Switch de Capa 3 (SVI)](#comandos-de-enrutamiento-con-switch-de-capa-3-svi)
+- [Comandos de Enrutamiento Estático y por Defecto](#comandos-de-enrutamiento-estático-y-por-defecto)
+- [Comandos de Redistribución de Rutas](#comandos-de-redistribución-de-rutas)
+- [Configuración de NAT](#configuración-de-nat)
+- [Configuración de EIGRP](#configuración-de-eigrp)
+- [Configuración de OSPF (IPv4)](#configuración-de-ospf-ipv4)
+- [Configuración de IS-IS (Intermediate System to Intermediate System)](#configuración-de-is-is-intermediate-system-to-intermediate-system)
+- [Configuración de Frame Relay](#configuración-de-frame-relay)
+- [Configuración de BGP (Border Gateway Protocol)](#configuración-de-bgp-border-gateway-protocol)
+- [Comandos de Verificación](#comandos-de-verificación)
+
+---
+
 ## Comandos básicos
 
 Los siguientes comandos son fundamentales para la configuración y administración de equipos Cisco, como routers y switches. Estos comandos permiten desde acceder a distintos modos del dispositivo, asignar configuraciones de red, modificar parámetros básicos como el nombre del equipo o la descripción de interfaces, hasta guardar o eliminar configuraciones en memoria.
@@ -55,7 +82,8 @@ Estos comandos permiten activar y configurar el protocolo de enrutamiento dinám
 | no auto-summary              | Desactiva la sumarización automática de rutas en los límites de clase                      |      Routers      |                   -                  | Es necesario cuando se usa VLSM o subredes discontinuas.                                        |
 
 ## Comandos Switching y Multicapa
-En esta sección se listan los comandos usados especificamente en Switches y Switches Multicapa
+
+En esta sección se listan los comandos usados especificamente en Switches y Switches Multicapa...
 
 |             **_Comando_**             |                         **_Uso_**                         | **_Aplicable a_** |             **_Ejemplo_**             |                                      **_Notas_**                                     |
 |:-------------------------------------:|:---------------------------------------------------------:|:-----------------:|:-------------------------------------:|:------------------------------------------------------------------------------------:|
@@ -66,9 +94,11 @@ En esta sección se listan los comandos usados especificamente en Switches y Swi
 | ip routing                            | Le dice al switch que enrute dominios de broadcast        |    Switches L3    |                   -                   | Esto es necesario para el correcto funcionamiento                                    |
 
 # Comandos dedicados a IPv6
+
 Estos comandos forman la base para implementar redes IPv6 funcionales, y son especialmente importantes en entornos modernos que buscan adoptar gradualmente el nuevo protocolo de Internet.
 
 ##  COMANDOS BASICOS DE IMPLEMENTACIÓN IPV6
+
 La siguiente tabla reúne comandos esenciales para comenzar con la configuración de IPv6 en routers y switches Cisco. 
 
 |       **_Comando_**      |                                **_Uso_**                               | **_Aplicable a_** |               **_Ejemplo_**              |                              **_Notas_**                              |
@@ -92,7 +122,6 @@ Esta serie de comandos se utiliza para configurar y gestionar el servicio DHCP e
 |       ip nd other-config-flag      | Indica que, aunque los hosts pueden configurar parte de su IPv6 por SLAAC, deben consultar un servidor DHCPv6 para información adicional. |      Routers      |                  -                 | Primero se debe elegir una interfaz.                                                                                |
 | ip dhcp server (NombreDelPoolDHCP) |                                                          Activa el servicio DHCP                                                          | Routers           | ip dhcp server LAN_OFFICE          | En IOS Cisco tradicional, este comando no existe para activar el DHCP, se activa automaticamente al definir un pool |
 
-
 ## Configuración de RIPng (IPv6)
 
 RIPng es la versión de RIP diseñada para redes IPv6. A diferencia del protocolo RIP para IPv4, **RIPng se configura a nivel de interfaz** y no completamente en modo global. Los siguientes comandos permiten habilitar este protocolo y gestionar su comportamiento en routers Cisco.
@@ -112,10 +141,10 @@ Estos comandos son esenciales para crear y administrar VLANs en una red de switc
 
 |         **_Comando_** |                                          **_Uso_** | **_Aplicable a_** |             **_Ejemplo_** |                                           **_Notas_** |
 |:----------------------------:|:------------------------------------------------------------------------------------------:|:-----------------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------:|
-| vlan (nro\_vlan)             | Crea una VLAN con el número de ID especificado.                                            |      Switches     | vlan 100                             | Si la VLAN ya existe, este comando ingresa a su modo de configuración.                          |
-| name (nombre\_vlan)          | Asigna un nombre descriptivo a la VLAN para facilitar su identificación.                   |      Switches     | name Administrativa                  | Se debe estar en el modo de configuración de la VLAN (`config-vlan`).                             |
+| vlan (nro_vlan)             | Crea una VLAN con el número de ID especificado.                                            |      Switches     | vlan 100                             | Si la VLAN ya existe, este comando ingresa a su modo de configuración.                          |
+| name (nombre_vlan)          | Asigna un nombre descriptivo a la VLAN para facilitar su identificación.                   |      Switches     | name Administrativa                  | Se debe estar en el modo de configuración de la VLAN (`config-vlan`).                             |
 | vtp mode [server/client]     | Define el rol del switch dentro del dominio VTP (servidor o cliente).                      |      Switches     | vtp mode server                      | El modo `transparent` permite gestionar VLANs localmente sin participar en la sincronización. |
-| vtp domain (nombre\_dominio) | Asigna el switch a un dominio VTP específico.                                              |      Switches     | vtp domain sis252.usfx.bo            | Todos los switches que deben sincronizarse tienen que estar en el mismo dominio.               |
+| vtp domain (nombre_dominio) | Asigna el switch a un dominio VTP específico.                                              |      Switches     | vtp domain sis252.usfx.bo            | Todos los switches que deben sincronizarse tienen que estar en el mismo dominio.               |
 | vtp password (contraseña)    | Establece una contraseña para el dominio VTP, añadiendo una capa de seguridad.             |      Switches     | vtp password 123456                  | La contraseña debe ser idéntica en todos los switches del dominio.                              |
 | show vlan brief              | Muestra un resumen de todas las VLANs configuradas y los puertos asignados a cada una.     |      Switches     |                   -                  | Comando de verificación fundamental para comprobar la asignación de puertos.                  |
 
@@ -126,7 +155,7 @@ Este método permite enrutar tráfico entre múltiples VLANs utilizando una úni
 |         **_Comando_** |                                          **_Uso_** | **_Aplicable a_** |             **_Ejemplo_** |                                           **_Notas_** |
 |:----------------------------:|:------------------------------------------------------------------------------------------:|:-----------------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 | interface (interfaz.sub-id)  | Crea una subinterfaz lógica asociada a una interfaz física.                                |      Routers      | interface FastEthernet0/0.100        | El número de la subinterfaz no tiene que coincidir con el ID de la VLAN, pero es una buena práctica hacerlo. |
-| encapsulation dot1q (id\_vlan) | Asocia la subinterfaz con una VLAN específica y habilita el etiquetado de tramas 802.1Q. |      Routers      | encapsulation dot1q 100              | **Comando obligatorio**. Sin él, la subinterfaz no puede procesar tráfico de VLAN.              |
+| encapsulation dot1q (id_vlan) | Asocia la subinterfaz con una VLAN específica y habilita el etiquetado de tramas 802.1Q. |      Routers      | encapsulation dot1q 100              | **Comando obligatorio**. Sin él, la subinterfaz no puede procesar tráfico de VLAN.              |
 | ip address (IP) (Mascara)    | Asigna una dirección IP a la subinterfaz, que actuará como gateway para esa VLAN.          |      Routers      | ip address 192.168.100.1 255.255.255.0 | Cada subinterfaz debe tener una IP en una subred diferente.                                     |
 | no shutdown (en interfaz física) | Activa la interfaz física principal. Si está apagada, todas sus subinterfaces también lo estarán. | Routers | -                                  | Este comando se ejecuta en la interfaz física (ej. `interface FastEthernet0/0`), no en la subinterfaz. |
 
@@ -137,9 +166,9 @@ Un Switch de Capa 3 (L3) puede enrutar tráfico entre VLANs de forma nativa y a 
 |             **_Comando_** |                                          **_Uso_** | **_Aplicable a_** |             **_Ejemplo_** |                                           **_Notas_** |
 |:-------------------------------------:|:------------------------------------------------------------------------------------------:|:-----------------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 | ip routing                            | Habilita globalmente la funcionalidad de enrutamiento en el switch.                      |    Switches L3    |                   -                  | **Comando maestro**. Sin él, el switch actúa solo en Capa 2 y no enrutará paquetes.             |
-| interface vlan (nro\_vlan)            | Crea o selecciona una Interfaz Virtual de Switch (SVI) para una VLAN específica.           |    Switches L3    | interface vlan 100                   | Esta interfaz actúa como el gateway para todos los dispositivos en esa VLAN.                    |
+| interface vlan (nro_vlan)            | Crea o selecciona una Interfaz Virtual de Switch (SVI) para una VLAN específica.           |    Switches L3    | interface vlan 100                   | Esta interfaz actúa como el gateway para todos los dispositivos en esa VLAN.                    |
 | ip address (IP) (Mascara)             | Asigna una dirección IP a la SVI, definiendo la puerta de enlace de la VLAN.               |    Switches L3    | ip address 192.168.100.1 255.255.255.0 | La SVI debe estar en estado "up/up" para enrutar, lo cual requiere que la VLAN exista y tenga un puerto activo. |
-| ip helper-address (ip\_servidor\_dhcp) | Reenvía las peticiones DHCP de una VLAN a un servidor DHCP ubicado en otra subred.       |    Switches L3    | ip helper-address 192.168.200.10     | Se configura dentro de la SVI de la VLAN cliente. Indispensable para DHCP centralizado.         |
+| ip helper-address (ip_servidor_dhcp) | Reenvía las peticiones DHCP de una VLAN a un servidor DHCP ubicado en otra subred.       |    Switches L3    | ip helper-address 192.168.200.10     | Se configura dentro de la SVI de la VLAN cliente. Indispensable para DHCP centralizado.         |
 
 ## Comandos de Enrutamiento Estático y por Defecto
 
@@ -162,7 +191,6 @@ La redistribución es el proceso de tomar rutas aprendidas a través de un proto
 | redistribute static          | Ordena al proceso RIP que anuncie todas las rutas estáticas configuradas en el router.     |      Routers      |                   -                  | Este es el comando que permitió que la Zona Intranet fuera visible para el resto de la red.     |
 | redistribute static metric (valor) | Realiza la redistribución asignando un costo o métrica inicial a las rutas importadas.   | Routers | redistribute static metric 2 | Es una buena práctica definir una métrica para tener control sobre la preferencia de la ruta. |
 
-
 # Configuración de NAT
 
 |                 **_Comando_**                 |                               **_Uso_**                                | **_Aplicable a_** |                         **_Ejemplo_**                         |                                          **_Notas_**                                          |
@@ -176,6 +204,7 @@ La redistribución es el proceso de tomar rutas aprendidas a través de un proto
 | `clear ip nat translation *`                  | Borra todas las entradas de la tabla de traducciones NAT.              | Routers           |                               -                               | Útil para solucionar problemas o reiniciar las conexiones NAT.                                      |
 
 ---
+
 # Configuración de EIGRP
 
 |             **_Comando_**             |                                           **_Uso_**                                            | **_Aplicable a_** |                     **_Ejemplo_**                      |                                          **_Notas_**                                          |
@@ -261,81 +290,6 @@ IS-IS es un protocolo de enrutamiento de estado de enlace (link-state) diseñado
 | `debug isis adj-packets` | Muestra los paquetes de Hello (IIH) que se envían y reciben, para depurar la formación de adyacencias. | Routers | - | Consume CPU, usar solo para diagnóstico. Desactivar con `undebug all`. |
 | `debug isis spf-events` | Muestra en tiempo real la ejecución del algoritmo SPF. | Routers | - | Ayuda a entender por qué se recalculan las rutas. Desactivar con `undebug all`. |
 
-
-## Configuración de Frame Relay
-
-Frame Relay es una tecnología WAN de conmutación de paquetes que utiliza circuitos virtuales identificados por DLCI (Data-Link Connection Identifiers). Aunque está prácticamente obsoleta en redes modernas, sigue apareciendo en laboratorios y certificaciones.
-
-### Configuración Básica en la Interfaz
-
-| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
-| :--- | :--- | :--- | :--- | :--- |
-| `encapsulation frame-relay` | Habilita Frame Relay como encapsulación de Capa 2 en una interfaz serial. | Routers | `encapsulation frame-relay` | Reemplaza la encapsulación por defecto (HDLC) en Cisco. [web:34] |
-| `encapsulation frame-relay ietf` | Usa encapsulación Frame Relay estándar IETF para interoperar con equipos no Cisco. | Routers | `encapsulation frame-relay ietf` | Útil cuando el otro extremo no es Cisco. [web:34] |
-| `frame-relay lmi-type {ansi \| cisco \| q933a}` | Define manualmente el tipo de LMI que se usará con el switch Frame Relay. | Routers | `frame-relay lmi-type ansi` | En IOS modernos suele detectarse automáticamente, pero se puede forzar. [web:34][web:33] |
-| `no shutdown` | Habilita la interfaz física o serial. | Routers | `no shutdown` | Sin este comando, no habrá estado “up/up”. |
-
-### Subinterfaces y DLCI
-
-| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
-| :--- | :--- | :--- | :--- | :--- |
-| `interface serial x/x/x.y point-to-point` | Crea una subinterfaz punto a punto para un PVC concreto. | Routers | `int s0/0/0.1 point-to-point` | Usado para topologías hub-and-spoke con un PVC por subinterfaz. [web:34][web:44] |
-| `interface serial x/x/x.y multipoint` | Crea una subinterfaz multipunto para varios PVC sobre la misma subinterfaz. | Routers | `int s0/0/0.1 multipoint` | Útil para topologías full-mesh o hub-and-spoke sobre un mismo segmento lógico. [web:34][web:44] |
-| `frame-relay interface-dlci <dlci>` | Asocia un DLCI local a la interfaz o subinterfaz. | Routers | `frame-relay interface-dlci 100` | El DLCI es local al router; el proveedor mapea DLCIs a través de la nube. [web:34][web:47] |
-| `ip address <ip> <mask>` | Asigna dirección IP a la interfaz o subinterfaz Frame Relay. | Routers | `ip address 192.168.1.1 255.255.255.0` | Normalmente se configura en la subinterfaz, no en la física. [web:34] |
-| `frame-relay map ip <ip-remota> <dlci> [broadcast]` | Configuración estática del mapeo IP–DLCI. | Routers | `frame-relay map ip 192.168.1.2 100 broadcast` | `broadcast` permite reenviar broadcasts/multicasts (por ejemplo, para routing dinámico). [web:35][web:47] |
-| `bandwidth <kbps>` | Ajusta el ancho de banda lógico de la interfaz para protocolos de enrutamiento. | Routers | `bandwidth 128` | No cambia el ancho de banda real, solo lo anunciado a protocolos de routing. [web:35] |
-
-### Verificación y Troubleshooting de Frame Relay
-
-| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
-| :--- | :--- | :--- | :--- | :--- |
-| `show interfaces serial x/x/x` | Muestra el estado de la interfaz, encapsulación, y tipo LMI. | Routers | `show int s0/0/0` | Permite verificar si la encapsulación es Frame Relay y el tipo de LMI. [web:33][web:34] |
-| `show frame-relay pvc` | Lista los PVC, DLCI, estado (active, inactive) y estadísticas. | Routers | `show frame-relay pvc` | Útil para confirmar conectividad a nivel de PVC. [web:47][web:44] |
-| `show frame-relay map` | Muestra los mapeos IP–DLCI, estáticos y dinámicos (Inverse ARP). | Routers | `show frame-relay map` | Verifica que las IP remotas estén asociadas al DLCI correcto. [web:47][web:35] |
-| `debug frame-relay lmi` | Muestra mensajes LMI para verificar la comunicación con el switch FR. | Routers | `debug frame-relay lmi` | Usar solo en troubleshooting; desactivar con `undebug all`. [web:47] |
-| `debug frame-relay events` | Depura eventos generales de Frame Relay (cambios de estado, PVC). | Routers | `debug frame-relay events` | Ayuda a detectar caídas intermitentes de PVC. [web:47] |
-| `undebug all` | Desactiva todos los procesos de debug activos. | Routers | `undebug all` | Siempre ejecutar al terminar de diagnosticar. [web:47] |
-
-
-## Configuración de BGP (Border Gateway Protocol)
-
-BGP es el protocolo de enrutamiento entre sistemas autónomos utilizado en Internet. Permite el intercambio de rutas entre AS diferentes (eBGP) e internos (iBGP), con un amplio conjunto de atributos para aplicar políticas de enrutamiento.
-
-### Configuración Básica de BGP
-
-| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
-| :--- | :--- | :--- | :--- | :--- |
-| `router bgp <AS-local>` | Inicia el proceso BGP e ingresa al modo de configuración BGP. | Routers | `router bgp 65001` | El número de AS identifica de forma única al sistema autónomo. [web:36][web:39] |
-| `neighbor <ip-vecino> remote-as <AS-vecino>` | Define un vecino BGP y el AS al que pertenece. | Routers | `neighbor 192.0.2.2 remote-as 65002` | Si el AS es distinto al local, es eBGP; si es igual, es iBGP. [web:36][web:42] |
-| `neighbor <ip-vecino> description <texto>` | Asigna una descripción al vecino BGP. | Routers | `neighbor 192.0.2.2 description Enlace a ISP` | Solo texto descriptivo, útil para documentación. [web:39] |
-| `network <prefijo> mask <máscara>` | Anuncia en BGP un prefijo que exista en la tabla de enrutamiento. | Routers | `network 203.0.113.0 mask 255.255.255.0` | El prefijo debe ser alcanzable localmente (estático, conectado, etc.). [web:39][web:36] |
-| `no auto-summary` | Deshabilita la sumarización automática por clase (en IOS antiguos). | Routers | `no auto-summary` | Buen hábito en labs legacy; en IOS nuevos suele estar desactivada. [web:36] |
-
-### Address Families y Políticas
-
-| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
-| :--- | :--- | :--- | :--- | :--- |
-| `address-family ipv4 unicast` | Entra a la AFI/SAFI IPv4 unicast para configurar vecinos y redes específicas. | Routers | `address-family ipv4 unicast` | En plataformas modernas, se requiere para activar IPv4 unicast. [web:39][web:48] |
-| `neighbor <ip-vecino> activate` | Activa el vecino en la address-family actual. | Routers | `neighbor 192.0.2.2 activate` | Necesario en la mayoría de address-families. [web:39][web:36] |
-| `neighbor <ip-vecino> next-hop-self` | Obliga al router a anunciarse a sí mismo como next-hop a sus vecinos iBGP. | Routers | `neighbor 10.0.0.2 next-hop-self` | Clave en diseños con múltiples saltos entre iBGP peers. [web:39][web:42] |
-| `neighbor <ip-vecino> route-map <mapa> in/out` | Aplica una política (route-map) a rutas recibidas o anunciadas. | Routers | `neighbor 192.0.2.2 route-map FILTRO-ISP out` | Permite filtrar, modificar atributos, etc. [web:39][web:42] |
-| `maximum-paths <n>` | Permite balanceo de carga multipath con múltiples rutas BGP de igual costo. | Routers | `maximum-paths 4` | Útil en redes con redundancia hacia varios ISPs. [web:37] |
-
-### Verificación y Troubleshooting de BGP
-
-| **Comando** | **Uso** | **Aplicable a** | **Ejemplo** | **Notas** |
-| :--- | :--- | :--- | :--- | :--- |
-| `show ip bgp summary` | Muestra un resumen de los vecinos BGP, su estado y número de prefijos recibidos. | Routers | `show ip bgp summary` | Primer comando para verificar si las sesiones BGP están `Established`. [web:37][web:42][web:49] |
-| `show ip bgp` | Muestra la tabla de enrutamiento BGP con todos los prefijos y atributos. | Routers | `show ip bgp 203.0.113.0` | Permite ver qué ruta es la mejor y cómo se seleccionó. [web:37][web:42] |
-| `show ip bgp neighbors` | Muestra información detallada de cada vecino BGP (estado FSM, timers, capacidades). | Routers | `show ip bgp neighbors 192.0.2.2` | Útil para troubleshooting de sesión y capacidades (IPv4/IPv6, etc.). [web:39][web:37] |
-| `show ip bgp neighbors advertised-routes` | Muestra qué rutas está anunciando el router a un vecino en particular. | Routers | `show ip bgp neighbors 192.0.2.2 advertised-routes` | Verifica que las políticas no estén filtrando rutas inesperadamente. [web:39][web:42] |
-| `show ip bgp neighbors received-routes` | Lista las rutas recibidas de un vecino antes de filtrado outbound (según plataforma). | Routers | - | Permite comparar rutas recibidas vs. instaladas. [web:39] |
-| `show ip route bgp` | Muestra únicamente las rutas BGP instaladas en la tabla de enrutamiento. | Routers | `show ip route bgp` | Distingue rutas aprendidas via BGP del resto. [web:37] |
-| `clear ip bgp *` | Reinicia las sesiones BGP (hard reset). | Routers | `clear ip bgp *` | Interrumpe las sesiones; usar con cuidado en producción. [web:37] |
-| `clear ip bgp * soft in` | Solicita un soft reset inbound sin derribar la sesión. | Routers | `clear ip bgp * soft in` | Reaplica políticas sin perder la sesión BGP. [web:37][web:45] |
-| `debug ip bgp` | Depura eventos BGP (mensajes, FSM). | Routers | `debug ip bgp` | Consumirá recursos; usar solo para diagnóstico y desactivar con `undebug all`. [web:45] |
-| `undebug all` | Desactiva todos los procesos de debug activos. | Routers | `undebug all` | Siempre al finalizar pruebas. [web:45] |
 ## Configuración de Frame Relay
 
 Frame Relay es una tecnología WAN de conmutación de paquetes que utiliza circuitos virtuales identificados por DLCI (Data-Link Connection Identifiers). Aunque está prácticamente obsoleta en redes modernas, sigue apareciendo en laboratorios y certificaciones.
@@ -370,7 +324,6 @@ Frame Relay es una tecnología WAN de conmutación de paquetes que utiliza circu
 | `debug frame-relay lmi` | Muestra mensajes LMI para verificar la comunicación con el switch FR. | Routers | `debug frame-relay lmi` | Usar solo en troubleshooting; desactivar con `undebug all`. |
 | `debug frame-relay events` | Depura eventos generales de Frame Relay (cambios de estado, PVC). | Routers | `debug frame-relay events` | Ayuda a detectar caídas intermitentes de PVC. |
 | `undebug all` | Desactiva todos los procesos de debug activos. | Routers | `undebug all` | Siempre ejecutar al terminar de diagnosticar. |
-
 
 ## Configuración de BGP (Border Gateway Protocol)
 
@@ -412,7 +365,8 @@ BGP es el protocolo de enrutamiento entre sistemas autónomos utilizado en Inter
 | `undebug all` | Desactiva todos los procesos de debug activos. | Routers | `undebug all` | Siempre al finalizar pruebas. |
 
 # Comandos de Verificación
-En esta sección se listarán todos los comandos que se necesitan para la verificación o manejo en diferentes equipos Cisco
+
+En esta sección se listarán todos los comandos que se necesitan para la verificación o manejo en diferentes equipos Cisco...
 
 | Comando                             | Uso                                                          | Aplicable a | Nota                                                              |
 |-------------------------------------|--------------------------------------------------------------|-------------|-------------------------------------------------------------------|
@@ -436,5 +390,5 @@ En esta sección se listarán todos los comandos que se necesitan para la verifi
 | debug ip rip                        | Muestra mensajes en tiempo real del proceso RIP              | IPv4        | Similar a `debug ipv6 rip`, para revisión de mensajes enviados    |
 | show clock                          | Muestra la hora del router                                   | Ambos       | Útil si necesitas sincronización para logs o troubleshooting      |
 | show cdp neighbors                  | Muestra dispositivos Cisco vecinos directamente conectados   | Ambos       | Ayuda a mapear la topología física de la red                      |
-| show mac-address-table                 | Muestra la tabla CAM de un router                                   | Ambos       | -  
-| show interfaces trunk                  | Muestra las interfaces troncales                          | Ambos       | - 
+| show mac-address-table              | Muestra la tabla CAM de un router                            | Ambos       | -                                                                 |
+| show interfaces trunk               | Muestra las interfaces troncales                             | Ambos       | -                                                                 |
