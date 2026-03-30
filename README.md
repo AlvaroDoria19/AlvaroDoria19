@@ -27,7 +27,6 @@
 
 **Traducción Técnica:**<br>
 ![Traducción](https://img.shields.io/badge/Traducci%C3%B3n-ESP_/_ENG-4285F4?style=for-the-badge&logo=googletranslate&logoColor=white)
-* Plugins y documentación técnica.
 
 ### 🌐 Redes e Infraestructura
 
