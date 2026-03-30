@@ -34,7 +34,6 @@
 ![Cisco](https://img.shields.io/badge/Cisco_CCNA_1_&_2-1BA0D7?style=for-the-badge&logo=cisco&logoColor=white)
 ![Linux](https://img.shields.io/badge/Entornos_Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
-* 📞 **Fundamentos:** Telefonía digital y configuración de redes.
 
 ### ✨ Servidores
 
