@@ -1,0 +1,29 @@
+    1  2026-04-12 19:18:29 : sudohostnamectl set-hostname webserver1
+    2  2026-04-12 19:18:35 : sudo hostnamectl set-hostname webserver1
+    3  2026-04-12 19:19:39 : sudo nano /var/www/html/index.html
+    4  2026-04-12 19:21:11 : history > logs.txt
+    5  2026-04-12 19:21:13 : ls
+    6  2026-04-12 19:21:20 : more logs.txt
+    7  2026-04-12 19:21:51 : export HISTSIZE=150
+    8  2026-04-12 19:21:51 : export HISTFILESIZE=300
+    9  2026-04-12 19:21:51 : export HISTCONTROL=erasedups
+   10  2026-04-12 19:21:51 : export HISTIGNORE='ls*:history*:exit'
+   11  2026-04-12 19:21:51 : export HISTTIMEFORMAT='%F %T : '
+   12  2026-04-12 19:22:19 : date
+   13  2026-04-12 19:27:45 : sudo apt install unzip wget -y
+   14  2026-04-12 19:27:47 : # Descargar un template gratuito por consola
+   15  2026-04-12 19:27:47 : sudo unzip oxer.zip -d /var/www/html/
+   16  2026-04-12 19:27:47 : # Renombrar la carpeta extraída (revisa el nombre exacto con ls /var/www/html/)
+   17  2026-04-12 19:27:47 : sudo mv /var/www/html/oxer-html /var/www/html/website2
+   18  2026-04-12 19:28:34 : cd /var/www/html
+   19  2026-04-12 19:28:51 : wget https://www.free-css.com/assets/files/free-css-templates/download/page296/oxer.zip
+   20  2026-04-12 19:29:04 : wget http://www.free-css.com/assets/files/free-css-templates/download/page296/oxer.zip
+   21  2026-04-12 19:36:54 : sudo mkdir -p /var/www/html/website2
+   22  2026-04-12 19:37:06 : mkdir website2
+   23  2026-04-12 19:37:16 : cd website2/
+   24  2026-04-12 19:37:23 : touch index.html
+   25  2026-04-12 19:37:27 : sudo touch index.html
+   26  2026-04-12 19:37:45 : sudo nano index.html
+   27  2026-04-12 20:06:08 : ip a
+   28  2026-04-12 20:07:33 : nano index.html
+   29  2026-04-12 20:13:01 : cd ~
