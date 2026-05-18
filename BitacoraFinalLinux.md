@@ -1,4 +1,4 @@
-# 📋 Bitácora de Comandos de Administración de Sistemas (SysAdmin)
+# Bitácora de Comandos de Administración de Sistemas
 
 En esta bitacora estàn todos los comandos vistos en los laboratorios de Linux.
 
