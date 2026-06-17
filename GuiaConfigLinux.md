@@ -1,4 +1,4 @@
-```markdown
+
 # Bitácora de Comandos de Administración de Sistemas y Configuración de Servicios
 
 En esta bitacora estàn todos los comandos vistos en los laboratorios de Linux.[cite: 1]
@@ -218,4 +218,3 @@ Utilidades esenciales de línea de comandos para verificar que el flujo de corre
 | `tail -f /var/log/mail.log` | Muestra el registro en tiempo real de toda la actividad de correo. Es la herramienta número uno para depurar correos rebotados o errores de conexión. | `tail -f /var/log/mail.log` |
 | `telnet localhost 25` | Abre una conexión directa al puerto SMTP para probar la respuesta de Postfix y enviar comandos de correo manualmente (`EHLO`, `MAIL FROM`, etc.). | `telnet localhost 25` |
 
-```
