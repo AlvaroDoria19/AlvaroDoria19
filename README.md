@@ -1,4 +1,4 @@
-<h1 align="center">👋 Hola, soy Álvaro Doria Medina Portugal</h1>
+<h1 align="center">👋 Hola, soy Álvaro Doria Medina</h1>
 
 <p align="center">
   📍 Sucre, Bolivia | 🚀 Apasionado por aprender nuevas tecnologías, desarrollo de software y redes.
