@@ -1,8 +1,5 @@
 # Bitácora de comandos Cisco: AAA y RADIUS
 
-Ayuda memoria de comandos IOS para autenticar el acceso administrativo de routers mediante RADIUS, con la base local como método alternativo. Sigue el esquema de la [Bitácora de Comandos Cisco del repositorio](https://github.com/AlvaroDoria19/AlvaroDoria19/blob/main/BitacoraComandosCisco.md): índice por tema, tablas de uso y ejemplos.
-
-> Reemplaza cada marcador entre `< >` por el valor de tu red. Los comandos exactos para definir el servidor RADIUS pueden variar entre IOS clásico e IOS XE; usa la variante que acepte la imagen del dispositivo.
 
 ## Índice
 
@@ -40,7 +37,7 @@ El router y el servidor deben tener conectividad IP. En la configuración del se
 | Usuario y contraseña | Cuenta de cada persona autorizada | Deben coincidir con las credenciales presentadas en el login. |
 | Atributos de autorización | Nivel de privilegio u otras políticas, si se necesitan | Son distintos de la autenticación básica; dependen del servidor y de IOS. |
 
-No agregues la IP de la PC desde la que se administra el router como cliente RADIUS. El cliente es el router, porque es quien envía el paquete Access-Request. Si hay más de un router, registra cada IP de origen como un cliente autorizado.
+No añadir la IP de la PC desde la que se administra el router como cliente RADIUS. El cliente es el router, porque es quien envía el paquete Access-Request. Si hay más de un router, registra cada IP de origen como un cliente autorizado.
 
 ## 3. Declarar el servidor RADIUS en IOS
 
@@ -65,20 +62,7 @@ end
 
 Usa una sola variante de clave por servidor según la sintaxis que acepte la imagen. Si el dispositivo y el servidor usan puertos distintos, la comunicación RADIUS no funcionará aunque la IP sea correcta.
 
-### 3.2 IOS XE con objeto de servidor
-
-IOS XE permite definir un nombre para cada servidor y luego referenciarlo desde un grupo:
-
-```text
-configure terminal
-radius server <NOMBRE_SERVIDOR>
- address ipv4 <IP_RADIUS> auth-port 1812 acct-port 1813
- key <SHARED_SECRET>
-exit
-end
-```
-
-### 3.3 Grupo de servidores (opcional)
+### 3.3 Grupo de servidores
 
 Un grupo nombrado permite limitar una lista de autenticación a servidores concretos. Define primero los servidores y luego agrúpalos.
 
@@ -91,14 +75,6 @@ aaa group server radius <GRUPO_RADIUS>
 exit
 ```
 
-**IOS XE con objetos de servidor:**
-
-```text
-aaa group server radius <GRUPO_RADIUS>
- server name <NOMBRE_SERVIDOR_1>
- server name <NOMBRE_SERVIDOR_2>
-exit
-```
 
 | Comando | Uso | Aplicable a | Ejemplo | Notas |
 |---|---|---|---|---|
